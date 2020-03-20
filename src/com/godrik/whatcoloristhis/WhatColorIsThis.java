@@ -31,15 +31,14 @@ public class WhatColorIsThis extends Activity
 		
 		@Override
 		    public boolean handleMessage(Message msg) {
-		    if (msg.what == 0)
-			processBar();
-		    else if (msg.what == 1)
-			clearDisplay();
+		    if (msg.what == 0) {
+			
+		    }
+		    else if (msg.what == 1) {
+		    }
 		    return false;
 		}
 	    });
-
-	bar = new ArrayList<foo>();
 
     }
 
@@ -47,14 +46,11 @@ public class WhatColorIsThis extends Activity
     public void onResume()
     {
 	super.onResume();
-	m = new Master(this);
     }
 
     @Override
     public void onPause() {
 	super.onPause();
-	m.quits();
-	m=null;
 	clearDisplay();
     } 
 
