@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <item
-      type="id"
-      name="tagForControlName" />
+  <item type="id" name="color_display" />
+  <item type="id" name="color_display2" />
+  <item type="id" name="camera_preview" />
 </resources>
 
