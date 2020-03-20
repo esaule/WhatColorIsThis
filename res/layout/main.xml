@@ -7,13 +7,13 @@
   <TextView
       android:id="@+id/color_display"
     android:layout_width="fill_parent"
-    android:layout_height="500px"
+    android:layout_height="300px"
     android:text="foo"
     />
   <FrameLayout
       android:id="@+id/camera_preview"
       android:layout_width="fill_parent"
-      android:layout_height="500px"
+      android:layout_height="900px"
       />
     <TextView
       android:id="@+id/color_display2"
