@@ -1,0 +1,117 @@
+package com.example.helloandroid;
+
+import android.app.Activity;
+import java.util.ArrayList;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.SeekBar;
+import android.widget.LinearLayout;
+import android.os.Handler;
+import android.os.Message;
+
+public class WhatColorIsThis extends Activity implements SeekBar.OnSeekBarChangeListener 
+{
+    private Handler h;
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+    {
+	if (fromUser)
+	    {
+		m.changeControlValue((String)(seekBar.getTag(R.id.tagForControlName)),progress);
+	    }
+    }
+    public void onStartTrackingTouch(SeekBar seekBar){}
+    public void onStopTrackingTouch(SeekBar seekBar){}
+
+
+    private Master m;
+    private ViewGroup layout;
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+	super.onCreate(savedInstanceState);
+	LinearLayout lay = new LinearLayout (this);
+	lay.setOrientation(LinearLayout.VERTICAL);
+	layout = lay;
+	setContentView(lay);
+	
+
+	h = new Handler(new Handler.Callback() {
+		
+		@Override
+		    public boolean handleMessage(Message msg) {
+		    if (msg.what == 0)
+			processBar();
+		    else if (msg.what == 1)
+			clearDisplay();
+		    return false;
+		}
+	    });
+
+	bar = new ArrayList<foo>();
+
+    }
+
+    @Override
+    public void onResume()
+    {
+	super.onResume();
+	m = new Master(this);
+    }
+
+    @Override
+    public void onPause() {
+	super.onPause();
+	m.quits();
+	m=null;
+	clearDisplay();
+    } 
+
+    private void clearDisplay() {
+	layout.removeAllViews();
+    }
+
+    class foo {
+	public String name;
+	public int max;
+	public int val;
+    }
+
+    ArrayList<foo> bar;
+
+    private void addControl_impl(String name, int max, int val)
+    {
+       TextView tv = new TextView(this);
+       tv.setText(name);
+       layout.addView(tv);
+       SeekBar sb = new SeekBar(this);
+       sb.setMax(max);
+       sb.setProgress(val);
+       sb.setTag(R.id.tagForControlName, name);
+       sb.setOnSeekBarChangeListener (this);
+       layout.addView(sb);
+    }
+    
+    private synchronized void processBar()
+    {
+	for (foo f : bar)
+	    addControl_impl(f.name, f.max, f.val);
+	bar.clear();
+    }
+
+    public synchronized void addControl(String name, int max, int val)
+    {
+	foo f = new foo();
+	f.name = name;
+	f.max = max;
+	f.val = val;
+	bar.add (f);
+	h.sendEmptyMessage(0);
+    }
+
+    public synchronized void clear()
+    {
+	h.sendEmptyMessage(1);
+    }
+}
