@@ -3,5 +3,6 @@
   <item type="id" name="color_display" />
   <item type="id" name="color_display2" />
   <item type="id" name="camera_preview" />
+  <item type="id" name="snap_button" />
 </resources>
 

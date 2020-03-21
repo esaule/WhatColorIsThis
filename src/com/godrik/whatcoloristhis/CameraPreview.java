@@ -5,6 +5,8 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.content.Context ;
 import android.util.Log ;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 import java.io.IOException ;
 
@@ -73,4 +75,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());
         }
     }
+
+    public Bitmap getBitmap() {
+	setDrawingCacheEnabled(true);
+	buildDrawingCache(true);
+	final Bitmap bitmap = Bitmap.createBitmap( getDrawingCache() );
+	Canvas c = new Canvas(bitmap);
+	this.draw(c);
+	setDrawingCacheEnabled(false);
+	destroyDrawingCache();
+	return bitmap;
+    }
+
 }
