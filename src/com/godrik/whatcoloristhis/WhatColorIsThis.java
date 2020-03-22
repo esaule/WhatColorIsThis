@@ -85,7 +85,33 @@ public class WhatColorIsThis extends Activity
         preview.addView(mPreview);
 
 	final PreviewCallback mPicture = new PreviewCallback() {
+		int getRGBcenter(int[] rgb, int width, int height) {
+		    //return rgb[width/2+height/2*width];
+		    int r = 0;
+		    int g = 0;
+		    int b = 0;
 
+		    int windowsize = 30;
+		    int nbpixel = 0;
+		    //this will overflow if window is 16Mpixel
+		    
+		    for (int row = width/2 - windowsize/2; row < width/2+windowsize/2 ; row++)
+			for (int col = height/2 - windowsize/2; col< height/2+windowsize/2 ; col++) {
+			    int color = rgb[col + row*height];
+			    r += ((color & 0x00FF0000)>> 16);
+			    g += ((color & 0x0000FF00)>> 8);
+			    b += ((color & 0x000000FF));
+			    
+			    nbpixel++;
+			}
+
+		    r /= nbpixel;
+		    g /= nbpixel;
+		    b /= nbpixel;
+		    
+		    return (r<<16) + (g<<8) + (b);
+		}
+		
 
 		@Override
 		public void onPreviewFrame(byte[] data, Camera camera) {
@@ -98,7 +124,8 @@ public class WhatColorIsThis extends Activity
 		    int[] rgb = new int [w*h];
 		    decodeYUV420SP(rgb, data, w, h);
 		     
-		    int col = rgb[w/2+h/2*w];
+		    int col = getRGBcenter(rgb, w, h);
+
 		    int r = (col & 0x00FF0000)>>16;
 		    int g = (col & 0x0000FF00)>>8;
 		    int b = (col & 0x000000FF);
@@ -110,13 +137,6 @@ public class WhatColorIsThis extends Activity
 
 	c.setPreviewCallback(mPicture);
 	
-	//final Button button = findViewById(R.id.snap_button);
-	// button.setOnClickListener(new View.OnClickListener() {
-	// 	public void onClick(View v) {
-	// 	    // Code here executes on main thread after user presses button
-	// 	    c.takePicture(null, mPicture, null);
-	// 	}
-	//     });
     }
 
     /** A safe way to get an instance of the Camera object. */
@@ -126,8 +146,9 @@ public class WhatColorIsThis extends Activity
 	    c = Camera.open(); // attempt to get a Camera instance
 	    Camera.Parameters param = c.getParameters();
 	    //param.setPictureFormat(ImageFormat.RGB_565);
-	    param.setFlashMode("torch");
-	    c.setParameters(param);
+
+	    //param.setFlashMode("torch");
+	    //c.setParameters(param);
 	}
 	catch (Exception e){
 	    // Camera is not available (in use or does not exist)
