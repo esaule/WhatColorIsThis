@@ -50,7 +50,8 @@ class LabColor {
     // LAB colorspace
     //
     // This function is based upon: https://github.com/antimatter15/rgb-lab
-    
+    //
+    // @return distance based on deltaE 1994
     public static double deltaE(LabColor a, LabColor b) {
 	
 	double c1 = Math.sqrt(a.a * a.a + a.b * a.b);
