@@ -174,7 +174,7 @@ class ColorTeller {
 	return (red<<16)+(green<<8)+blue;
     }
 
-    private float distance(int rgb1, int rgb2) {
+    private float distanceRGB(int rgb1, int rgb2) {
 	int rdiff = ((rgb1&0x00FF0000)>>16) - ((rgb2&0x00FF0000)>>16);
 	int gdiff = ((rgb1&0x0000FF00)>>8)  - ((rgb2&0x0000FF00)>>8);
 	int bdiff = ((rgb1&0x000000FF))     - ((rgb2&0x000000FF));
@@ -183,6 +183,11 @@ class ColorTeller {
 	
 	return (float)Math.sqrt((double)(rdiff*rdiff+gdiff*gdiff+bdiff*bdiff));
     }
+
+
+    
+    
+
     
     public String tell(int rgb) {
 
@@ -196,7 +201,7 @@ class ColorTeller {
 
 	    int valrgb = colorFromHex(val);
 
-	    float locdist = distance(rgb, valrgb);
+	    float locdist = distanceRGB(rgb, valrgb);
 
 	    //System.out.println("valrgb="+valrgb+" distance="+locdist);
 	    
