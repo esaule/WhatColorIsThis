@@ -34,9 +34,9 @@ class LabColor {
 	double y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.00000;
 	double z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
 	    
-	x = (x > 0.008856) ? Math.pow(x, 1/3) : (7.787 * x) + 16.0 / 116.0;
-	y = (y > 0.008856) ? Math.pow(y, 1/3) : (7.787 * y) + 16.0 / 116.0;
-	z = (z > 0.008856) ? Math.pow(z, 1/3) : (7.787 * z) + 16.0 / 116.0;
+	x = (x > 0.008856) ? Math.pow(x, 1.0/3.0) : (7.787 * x) + 16.0 / 116.0;
+	y = (y > 0.008856) ? Math.pow(y, 1.0/3.0) : (7.787 * y) + 16.0 / 116.0;
+	z = (z > 0.008856) ? Math.pow(z, 1.0/3.0) : (7.787 * z) + 16.0 / 116.0;
 	    
 	double lab_l = (116 * y) - 16;
 	double lab_a = 500 * (x - y);
@@ -45,25 +45,34 @@ class LabColor {
 	return lab;
     }
 
-	
-    // function deltaE(labA, labB){
-    //   var deltaL = labA[0] - labB[0];
-    //   var deltaA = labA[1] - labB[1];
-    //   var deltaB = labA[2] - labB[2];
-    //   var c1 = Math.sqrt(labA[1] * labA[1] + labA[2] * labA[2]);
-    //   var c2 = Math.sqrt(labB[1] * labB[1] + labB[2] * labB[2]);
-    //   var deltaC = c1 - c2;
-    //   var deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC;
-    //   deltaH = deltaH < 0 ? 0 : Math.sqrt(deltaH);
-    //   var sc = 1.0 + 0.045 * c1;
-    //   var sh = 1.0 + 0.015 * c1;
-    //   var deltaLKlsl = deltaL / (1.0);
-    //   var deltaCkcsc = deltaC / (sc);
-    //   var deltaHkhsh = deltaH / (sh);
-    //   var i = deltaLKlsl * deltaLKlsl + deltaCkcsc * deltaCkcsc + deltaHkhsh * deltaHkhsh;
-    //   return i < 0 ? 0 : Math.sqrt(i);
-    // }
+    //
+    // @brief This function computes distance between two colors in
+    // LAB colorspace
+    //
+    // This function is based upon: https://github.com/antimatter15/rgb-lab
     
+    public static double deltaE(LabColor a, LabColor b) {
+	
+	double c1 = Math.sqrt(a.a * a.a + a.b * a.b);
+	double c2 = Math.sqrt(b.a * b.a + b.b * b.b);
+	double deltaC = c1 - c2;
+	double sl = 1.0;
+	double sc = 1.0 + 0.045 * c1;
+	double sh = 1.0 + 0.015 * c1;
+	
+	
+	double deltaL = a.l - b.l;
+	double deltaA = a.a - b.a;
+	double deltaB = a.b - b.b;
+	double deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC;
+	deltaH = ((deltaH < 0) ? 0 : Math.sqrt(deltaH));
 
+	double deltaLKlsl = deltaL / (sl);
+	double deltaCkcsc = deltaC / (sc);
+	double deltaHkhsh = deltaH / (sh);
+
+	double i = deltaLKlsl * deltaLKlsl + deltaCkcsc * deltaCkcsc + deltaHkhsh * deltaHkhsh;
+	return ((i < 0) ? 0 : Math.sqrt(i));
+    }
 	
 }

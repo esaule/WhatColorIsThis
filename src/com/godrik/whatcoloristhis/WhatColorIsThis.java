@@ -92,17 +92,6 @@ public class WhatColorIsThis extends Activity
 		     
 		     Camera.Parameters param = camera.getParameters();
 
-		     String dafuq = " dafuq";
-
-		     if (param.getPreviewFormat() == ImageFormat.NV21)
-			 dafuq="";
-
-		     
-		     
-		    // Bitmap b = mPreview.getBitmap();
-		    // int w = b.getWidth();
-		    // int h = b.getHeight();
-		    // int col = b.getPixel(w/2, h/2);
 		     int w = param.getPreviewSize().width;
 		     int h = param.getPreviewSize().height;
 
@@ -113,7 +102,8 @@ public class WhatColorIsThis extends Activity
 		     int r = (col & 0x00FF0000)>>16;
 		     int g = (col & 0x0000FF00)>>8;
 		     int b = (col & 0x000000FF);
-		     String coloris= "Color is "+col+ "("+r+","+g+","+b+":"+ct.tell(col)+")"+ ". Size was "+w+","+h+dafuq;
+		     String coloris= "Color is "+col+ "("+r+","+g+","+b+")"+ ". Size was "+w+","+h;
+		     coloris =coloris +"\n"+ct.tell(col);
 		     color_display.setText(coloris);
 		 }
 	    };
@@ -135,7 +125,9 @@ public class WhatColorIsThis extends Activity
 	try {
 	    c = Camera.open(); // attempt to get a Camera instance
 	    Camera.Parameters param = c.getParameters();
-	    param.setPictureFormat(ImageFormat.RGB_565);
+	    //param.setPictureFormat(ImageFormat.RGB_565);
+	    param.setFlashMode("torch");
+	    c.setParameters(param);
 	}
 	catch (Exception e){
 	    // Camera is not available (in use or does not exist)

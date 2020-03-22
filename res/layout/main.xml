@@ -9,6 +9,7 @@
     android:layout_width="fill_parent"
     android:layout_height="300px"
     android:text="foo"
+    android:maxLines="10"
     />
   <FrameLayout
       android:id="@+id/camera_preview"

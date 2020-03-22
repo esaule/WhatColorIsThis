@@ -187,11 +187,44 @@ class ColorTeller {
 
     
     
+    public String tell(int rgb) {
+	return "rgb: "+tellrgb(rgb) + "\nlab: "+ telllab(rgb);
+    }
 
     
-    public String tell(int rgb) {
+    private String telllab(int rgb) {
+	LabColor querylab = LabColor.rgb2lab(rgb);
+	
+	double dist = Double.POSITIVE_INFINITY;
+	String guess = "";
 
-	float dist = 256*256*3;
+	for (String name : colorNames.keySet()) {
+	    String val = colorNames.get(name);
+
+	    //System.out.println("considering "+name+"="+val+" "+rgb );
+
+	    int valrgb = colorFromHex(val);
+	    LabColor dblab = LabColor.rgb2lab(valrgb);
+	    
+	    double locdist = LabColor.deltaE(querylab, dblab);
+
+	    //System.out.println("valrgb="+valrgb+" distance="+locdist);
+	    
+	    if (locdist < dist) {
+		//System.out.println("new dist: "+locdist);
+		//System.out.println("");
+		guess = name + ", " + locdist;
+		dist = locdist;
+	    }
+	}
+			
+	return guess;
+    }
+
+    
+    private String tellrgb(int rgb) {
+
+	float dist = Float.POSITIVE_INFINITY;
 	String guess = "";
 
 	for (String name : colorNames.keySet()) {
