@@ -38,9 +38,9 @@ class LabColor {
 	y = (y > 0.008856) ? Math.pow(y, 1.0/3.0) : (7.787 * y) + 16.0 / 116.0;
 	z = (z > 0.008856) ? Math.pow(z, 1.0/3.0) : (7.787 * z) + 16.0 / 116.0;
 	    
-	double lab_l = (116 * y) - 16;
-	double lab_a = 500 * (x - y);
-	double lab_b = 200 * (y - z);
+	double lab_l = (116.0 * y) - 16.0;
+	double lab_a = 500.0 * (x - y);
+	double lab_b = 200.0 * (y - z);
 	LabColor lab = new LabColor(lab_l, lab_a, lab_b);
 	return lab;
     }
@@ -66,14 +66,14 @@ class LabColor {
 	double deltaA = a.a - b.a;
 	double deltaB = a.b - b.b;
 	double deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC;
-	deltaH = ((deltaH < 0) ? 0 : Math.sqrt(deltaH));
+	deltaH = ((deltaH < 0.0) ? 0.0 : Math.sqrt(deltaH));
 
 	double deltaLKlsl = deltaL / (sl);
 	double deltaCkcsc = deltaC / (sc);
 	double deltaHkhsh = deltaH / (sh);
 
 	double i = deltaLKlsl * deltaLKlsl + deltaCkcsc * deltaCkcsc + deltaHkhsh * deltaHkhsh;
-	return ((i < 0) ? 0 : Math.sqrt(i));
+	return ((i < 0.0) ? 0.0 : Math.sqrt(i));
     }
 	
 }
