@@ -52,11 +52,13 @@ class MyPreviewCallback implements  PreviewCallback {
 	int b = 0;
 	
 	int windowsize = 30;
+	double rel = rv.getRelativeSize();
+
 	int nbpixel = 0;
 	//this will overflow if window is 16Mpixel
 		    
-	for (int row = height/2 - windowsize/2; row < height/2+windowsize/2 ; row++)
-	    for (int col = width/2 - windowsize/2; col< width/2+windowsize/2 ; col++) {
+	for (int row = height/2 - (int)(height*rel/2); row < height/2 + (int)(height*rel/2) ; row++)
+	    for (int col = width/2 - (int)(width*rel/2); col< width/2 + (int)(width*rel/2) ; col++) {
 		int color = rgb[col + row*width];
 		r += ((color & 0x00FF0000)>> 16);
 		g += ((color & 0x0000FF00)>> 8);
