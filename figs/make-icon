@@ -1,0 +1,20 @@
+#!/bin/sh
+
+mkdir -p ../res/drawable-ldpi
+inkscape icon.svg --export-png=../res/drawable-ldpi/icon.png --export-area-drawing -w 36 -h 36
+
+mkdir -p ../res/drawable
+inkscape icon.svg --export-png=../res/drawable/icon.png --export-area-drawing -w 48 -h 48
+
+mkdir -p ../res/drawable-hdpi
+inkscape icon.svg --export-png=../res/drawable-hdpi/icon.png --export-area-drawing -w 72 -h 72
+
+mkdir -p ../res/drawable-xhdpi
+inkscape icon.svg --export-png=../res/drawable-xhdpi/icon.png --export-area-drawing -w 96 -h 96
+
+inkscape icon.svg --export-png=icon-1024x500.png --export-area-drawing -w 1024 -h 500
+inkscape icon.svg --export-png=icon-512x512.png --export-area-drawing -w 512 -h 512
+inkscape icon.svg --export-png=icon-511x511.png --export-area-drawing -w 511 -h 511
+
+
+
