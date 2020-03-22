@@ -84,6 +84,9 @@ public class WhatColorIsThis extends Activity
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
+	View overlay = new RegionView(this);
+	preview.addView(overlay);
+	
 	final PreviewCallback mPicture = new PreviewCallback() {
 		int getRGBcenter(int[] rgb, int width, int height) {
 		    //return rgb[width/2+height/2*width];
