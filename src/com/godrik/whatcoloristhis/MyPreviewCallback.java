@@ -55,8 +55,8 @@ class MyPreviewCallback implements  PreviewCallback {
 	int nbpixel = 0;
 	//this will overflow if window is 16Mpixel
 		    
-	for (int row = width/2 - windowsize/2; row < width/2+windowsize/2 ; row++)
-	    for (int col = height/2 - windowsize/2; col< height/2+windowsize/2 ; col++) {
+	for (int row = height/2 - windowsize/2; row < height/2+windowsize/2 ; row++)
+	    for (int col = width/2 - windowsize/2; col< width/2+windowsize/2 ; col++) {
 		int color = rgb[col + row*width];
 		r += ((color & 0x00FF0000)>> 16);
 		g += ((color & 0x0000FF00)>> 8);
